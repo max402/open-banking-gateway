@@ -2,8 +2,7 @@
 
 if [[ $TRAVIS_REPO_SLUG != "adorsys/open-banking-gateway"
     || $TRAVIS_JDK_VERSION != "openjdk8"
-    || $TRAVIS_PULL_REQUEST != "false"
-    || ! $TRAVIS_TAG ]];
+    || $TRAVIS_PULL_REQUEST != "false" ]];
 then
   echo "ERROR: Documentation deployment for this build not allowed"
   exit 1
