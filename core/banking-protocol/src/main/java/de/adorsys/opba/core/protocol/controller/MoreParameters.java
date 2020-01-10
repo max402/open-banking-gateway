@@ -12,6 +12,7 @@ import de.adorsys.opba.core.protocol.service.xs2a.context.Xs2aContext;
 import de.adorsys.xs2a.adapter.service.model.AccountDetails;
 import de.adorsys.xs2a.adapter.service.model.TransactionsReport;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.flowable.engine.RuntimeService;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -36,6 +37,7 @@ import static de.adorsys.opba.core.protocol.controller.constants.ApiPaths.MORE_P
 import static de.adorsys.opba.core.protocol.controller.constants.ApiPaths.MORE_PARAMETERS_SELECT_SCA_METHOD;
 import static de.adorsys.opba.core.protocol.controller.constants.ApiVersion.API_1;
 
+@Slf4j
 @RestController
 @RequestMapping(API_1)
 @RequiredArgsConstructor
@@ -52,7 +54,7 @@ public class MoreParameters {
     public CompletableFuture<? extends ResponseEntity<?>> provideMoreParameters(
             @PathVariable String executionId,
             @RequestBody @Valid @NotNull LinkedMultiValueMap<@NotBlank String, String> pathAndValueUpdates) {
-
+        log.info("confirm for execution {}", executionId);
         BaseContext ctx = (BaseContext) runtimeService.getVariable(executionId, CONTEXT);
         ctx = updater.updateObjectUsingJsonPath(ctx, pathAndValueUpdates.toSingleValueMap());
         runtimeService.setVariable(executionId, CONTEXT, ctx);
@@ -73,7 +75,7 @@ public class MoreParameters {
     public CompletableFuture<? extends ResponseEntity<?>> receivePsuPassword(
             @PathVariable String executionId,
             @Valid PsuPassword password) {
-
+        log.info("confirm for execution {}", executionId);
         Xs2aContext ctx = (Xs2aContext) runtimeService.getVariable(executionId, CONTEXT);
         ctx.setPsuPassword(password.getPsuPassword());
         runtimeService.setVariable(executionId, CONTEXT, ctx);
@@ -94,7 +96,7 @@ public class MoreParameters {
     public CompletableFuture<? extends ResponseEntity<?>> receiveScaMethodSelected(
             @PathVariable String executionId,
             @Valid ScaSelectedMethod methodSelected) {
-
+        log.info("confirm for execution {}", executionId);
         Xs2aContext ctx = (Xs2aContext) runtimeService.getVariable(executionId, CONTEXT);
         ctx.setUserSelectScaId(methodSelected.getScaMethodId());
         runtimeService.setVariable(executionId, CONTEXT, ctx);
@@ -115,7 +117,7 @@ public class MoreParameters {
     public CompletableFuture<? extends ResponseEntity<?>> receiveScaChallengeResult(
             @PathVariable String executionId,
             @Valid ScaChallengeResult scaChallengeResult) {
-
+        log.info("confirm for execution {}", executionId);
         Xs2aContext ctx = (Xs2aContext) runtimeService.getVariable(executionId, CONTEXT);
         ctx.setLastScaChallenge(scaChallengeResult.getScaChallengeResult());
         runtimeService.setVariable(executionId, CONTEXT, ctx);

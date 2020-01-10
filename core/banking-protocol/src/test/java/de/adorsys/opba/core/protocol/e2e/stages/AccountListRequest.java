@@ -59,6 +59,7 @@ public class AccountListRequest extends Stage<AccountListRequest> {
                 .andDo(print())
                 .andExpect(status().is3xxRedirection())
                 .andDo(mvcResult -> redirectUriToGetUserParams = mvcResult.getResponse().getHeader(HttpHeaders.LOCATION));
+        log.info("open accounts for: {}", redirectUriToGetUserParams);
         updateExecutionId();
         return self();
     }
@@ -69,6 +70,7 @@ public class AccountListRequest extends Stage<AccountListRequest> {
                 .andDo(print())
                 .andExpect(status().is3xxRedirection())
                 .andDo(mvcResult -> redirectUriToGetUserParams = mvcResult.getResponse().getHeader(HttpHeaders.LOCATION));
+        log.info("open accounts for: {}", redirectUriToGetUserParams);
         updateExecutionId();
         return self();
     }
@@ -79,6 +81,7 @@ public class AccountListRequest extends Stage<AccountListRequest> {
                 .andDo(print())
                 .andExpect(status().is3xxRedirection())
                 .andDo(mvcResult -> redirectUriToGetUserParams = mvcResult.getResponse().getHeader(HttpHeaders.LOCATION));
+        log.info("open accounts for: {}", redirectUriToGetUserParams);
         updateExecutionId();
         return self();
     }
@@ -93,6 +96,7 @@ public class AccountListRequest extends Stage<AccountListRequest> {
         LoggedRequest consentInitiateRequest = wireMock
                 .findAll(postRequestedFor(urlMatching("/v1/consents.*"))).get(0);
         redirectOkUri = consentInitiateRequest.getHeader(TPP_REDIRECT_URI);
+        log.info("set redirect ok: {}", redirectUriToGetUserParams);
         return self();
     }
 
@@ -106,6 +110,7 @@ public class AccountListRequest extends Stage<AccountListRequest> {
         LoggedRequest consentInitiateRequest = wireMock
                 .findAll(postRequestedFor(urlMatching("/v1/consents.*"))).get(0);
         redirectOkUri = consentInitiateRequest.getHeader(TPP_REDIRECT_URI);
+        log.info("set redirect ok: {}", redirectUriToGetUserParams);
         return self();
     }
 
@@ -168,6 +173,7 @@ public class AccountListRequest extends Stage<AccountListRequest> {
     @SneakyThrows
     private void provideParametersToBankingProtocol(String uriPath, String resource) {
         provideParametersToBankingProtocol(uriPath, resource, status().is3xxRedirection());
+        log.info("update execution id: {}", redirectUriToGetUserParams);
         updateExecutionId();
     }
 
@@ -188,7 +194,7 @@ public class AccountListRequest extends Stage<AccountListRequest> {
     }
 
     private void updateExecutionId() {
-        log.info("Parsing {} to get execution id", redirectUriToGetUserParams);
+        log.info("Update / Parsing {} to get execution id", redirectUriToGetUserParams);
         execId = Iterables.getLast(
                 Splitter.on("/").split(Splitter.on("?").split(redirectUriToGetUserParams).iterator().next())
         );

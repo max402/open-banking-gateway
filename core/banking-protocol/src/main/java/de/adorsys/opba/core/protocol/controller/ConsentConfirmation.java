@@ -6,6 +6,7 @@ import de.adorsys.opba.core.protocol.service.xs2a.Xs2aResultExtractor;
 import de.adorsys.xs2a.adapter.service.model.AccountDetails;
 import de.adorsys.xs2a.adapter.service.model.TransactionsReport;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.flowable.engine.RuntimeService;
 import org.flowable.engine.runtime.ActivityInstance;
 import org.springframework.http.ResponseEntity;
@@ -21,6 +22,7 @@ import java.util.concurrent.CompletableFuture;
 import static de.adorsys.opba.core.protocol.controller.constants.ApiPaths.CONSENTS;
 import static de.adorsys.opba.core.protocol.controller.constants.ApiVersion.API_1;
 
+@Slf4j
 @RestController
 @RequestMapping(API_1)
 @RequiredArgsConstructor
@@ -37,6 +39,7 @@ public class ConsentConfirmation {
     public CompletableFuture<? extends ResponseEntity<?>> confirmedRedirectConsentAccounts(
             @PathVariable ProtocolAction action,
             @PathVariable String sagaId) {
+        log.info("confirm for saga {}", sagaId);
 
         runtimeService.trigger(executionToTrigger(sagaId));
 
