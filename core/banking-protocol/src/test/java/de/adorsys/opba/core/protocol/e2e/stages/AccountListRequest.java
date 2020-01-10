@@ -195,8 +195,12 @@ public class AccountListRequest extends Stage<AccountListRequest> {
 
     private void updateExecutionId() {
         log.info("Update / Parsing {} to get execution id", redirectUriToGetUserParams);
-        execId = Iterables.getLast(
-                Splitter.on("/").split(Splitter.on("?").split(redirectUriToGetUserParams).iterator().next())
-        );
+        try {
+            execId = Iterables.getLast(
+                    Splitter.on("/").split(Splitter.on("?").split(redirectUriToGetUserParams).iterator().next())
+            );
+        } catch (RuntimeException ex) {
+            log.error("Failed: {}", redirectUriToGetUserParams, ex);
+        }
     }
 }
