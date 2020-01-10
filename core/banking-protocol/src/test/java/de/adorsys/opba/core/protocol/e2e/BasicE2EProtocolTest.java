@@ -6,6 +6,7 @@ import de.adorsys.opba.core.protocol.e2e.stages.AccountListRequest;
 import de.adorsys.opba.core.protocol.e2e.stages.AccountListResult;
 import de.adorsys.opba.core.protocol.e2e.stages.mocks.MockServers;
 import lombok.SneakyThrows;
+import lombok.extern.slf4j.Slf4j;
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -19,6 +20,7 @@ import static de.adorsys.opba.core.protocol.TestProfiles.ONE_TIME_POSTGRES_RAMFS
 /**
  * Happy-path test that uses wiremock-stubbed request-responses to drive banking-protocol.
  */
+@Slf4j
 @Transactional(propagation = Propagation.NOT_SUPPORTED)
 @AutoConfigureMockMvc
 @SpringBootTest(classes = {BankingProtocol.class, JGivenConfig.class})
@@ -28,6 +30,7 @@ class BasicE2EProtocolTest extends SpringScenarioTest<MockServers, AccountListRe
     @Test
     @SneakyThrows
     void testAccountsListWithConsentUsingRedirect() {
+        log.info("testAccountsListWithConsentUsingRedirect");
         given()
                 .redirect_mock_of_sandbox_for_anton_brueckner_accounts_running();
         when()
@@ -40,6 +43,7 @@ class BasicE2EProtocolTest extends SpringScenarioTest<MockServers, AccountListRe
 
     @Test
     void testTransactionsListWithConsentUsingRedirect() {
+        log.info("testTransactionsListWithConsentUsingRedirect");
         given()
                 .redirect_mock_of_sandbox_for_anton_brueckner_transactions_running();
         when()
@@ -52,6 +56,7 @@ class BasicE2EProtocolTest extends SpringScenarioTest<MockServers, AccountListRe
 
     @Test
     void testAccountsListWithConsentUsingEmbedded() {
+        log.info("testAccountsListWithConsentUsingEmbedded");
         given()
                 .embedded_mock_of_sandbox_for_max_musterman_accounts_running();
         when()
@@ -70,6 +75,7 @@ class BasicE2EProtocolTest extends SpringScenarioTest<MockServers, AccountListRe
 
     @Test
     void testTransactionsListWithConsentUsingEmbedded() {
+        log.info("testTransactionsListWithConsentUsingEmbedded");
         given()
                 .embedded_mock_of_sandbox_for_max_musterman_transactions_running();
         when()
